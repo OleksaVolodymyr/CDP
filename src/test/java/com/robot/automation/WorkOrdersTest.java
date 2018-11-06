@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.robot.automation.bo.WorkOrderInputPageBO;
 import com.robot.automation.bo.WorkOrderLookupPageBO;
 import com.robot.automation.model.UATModel;
+import com.robot.automation.utils.Property;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +40,7 @@ public class WorkOrdersTest {
     public Iterator<UATModel> getDataFromXML() {
         CsvToBean<UATModel> csvToBean;
         List<UATModel> uat= null;
-        try (BufferedReader reader = new BufferedReader(new FileReader("src\\main\\resources\\csv\\TN_Shelby_3.2_Shelby_58478_uat.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Property.getInstance().getPropertyByKey("PathToUAT")))) {
             csvToBean =
                     new CsvToBeanBuilder<UATModel>(reader).withType(UATModel.class).withIgnoreLeadingWhiteSpace(true).build();
             uat = csvToBean.parse();

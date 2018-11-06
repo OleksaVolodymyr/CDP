@@ -8,9 +8,7 @@ public class App {
     public static void main(String[] args) {
         //      CsvToBean<UATModel> csvToBean;
 //        List<UATModel> uat= null;
-//        try (BufferedReader reader = Files.newBufferedReader(Paths.get("D:\\WorkSpace\\botsearch\\src\\main\\resources" +
-//                "\\TN_Shelby_3" +
-//                ".2_Shelby_58478_uat.csv"))) {
+//        try (BufferedReader reader = Files.newBufferedReader(Paths.get(""))) {
 //            csvToBean =
 //                    new CsvToBeanBuilder<UATModel>(reader).withType(UATModel.class).withIgnoreLeadingWhiteSpace(true).build();
 //            uat = csvToBean.parse();

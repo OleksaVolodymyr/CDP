@@ -20,8 +20,8 @@ public class WorkOrderInputPageBO {
         workOrderInputPage.enterFirstName(uat.getFirstName());
         workOrderInputPage.enterMiddleName("");
         workOrderInputPage.enterDateOfBirth(uat.getDateOfBirth());
-        workOrderInputPage.selectJurisdiction("IL");
-        workOrderInputPage.selectCounty("Kane County");
+        workOrderInputPage.selectJurisdiction("");
+        workOrderInputPage.selectCounty("");
         workOrderInputPage.clickSubmitJob();
     }
 
