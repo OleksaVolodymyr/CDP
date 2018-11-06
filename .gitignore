@@ -1,0 +1,15 @@
+#Directory
+.idea/
+.settings/
+[Tt]arget/
+**/resources/drivers/*
+**/resources/csv/*
+[Bb]in/
+
+#Files
+[Ll]og_jul.txt
+[Dd]ebag.log
+[Pp]rop.properties
+[Ll]ogback.xml
+[Tt]estng.xml
+
