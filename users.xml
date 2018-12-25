@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+	<user>
+		<login>smtp.epam.gr3</login>
+		<password>taepamgr3</password>
+	</user>
+	<!-- <user> <login>smtp.epam.gr31</login> <password>taepamgr3</password> 
+		</user> <user> <login>smtp.epam.gr32</login> <password>taepamgr3</password> 
+		</user> <user> <login>smtp.epam.gr33</login> <password>taepamgr33</password> 
+		</user> <user> <login>smtp.epam.gr34</login> <password>taepamgr34</password> 
+		</user> -->
+</users>

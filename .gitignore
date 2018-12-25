@@ -5,6 +5,7 @@
 **/resources/drivers/*
 **/resources/csv/*
 [Bb]in/
+[Tt]est-output
 
 #Files
 [Ll]og_jul.txt
@@ -12,4 +13,7 @@
 [Pp]rop.properties
 [Ll]ogback.xml
 [Tt]estng.xml
+[Uu]ser.xml
+[Cc]hromedriver.exe
+
 
