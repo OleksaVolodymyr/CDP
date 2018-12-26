@@ -74,6 +74,6 @@ public class GmailTest {
 
     @AfterClass
     public void close() {
-        //driver.close();
+        driver.close();
     }
 }

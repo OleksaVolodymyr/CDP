@@ -17,7 +17,7 @@ public class WebDriverPool{
     public static synchronized WebDriver getInstance() {
         if (pool.get() == null) {
            // LOG.info("Create web driver, thread id : " + Thread.currentThread().getId());
-            System.setProperty("webdriver.chrome.driver", "./resources/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().timeouts().pageLoadTimeout(50, TimeUnit.SECONDS);
             driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
