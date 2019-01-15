@@ -59,7 +59,7 @@ public class GmailInboxPage extends PageObject {
     }
 
     public List<TableRow> findMessage(Message messageTemplate, int amount) {
-        LOG.info("Searching " + amount + " message using template : " + messageTemplate + "Thread id: " +Thread.currentThread().getId());
+        LOG.info("Searching " + amount + " message using template : " + messageTemplate + "Thread id: " + Thread.currentThread().getId());
         int count = 0;
         foundMessages = new ArrayList<>();
         for (TableRow message : inboxMessages) {
@@ -94,7 +94,7 @@ public class GmailInboxPage extends PageObject {
 
     public void deleteSelectedMessage() {
         LOG.info("Click delete button on " + this.getClass().getSimpleName());
-       new FluentWait<>(driver)
+        new FluentWait<>(driver)
                 .withTimeout(Duration.ofMinutes(1))
                 .pollingEvery(Duration.ofSeconds(2))
                 .ignoring(NoSuchElementException.class)
