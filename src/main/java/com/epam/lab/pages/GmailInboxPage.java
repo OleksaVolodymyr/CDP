@@ -25,8 +25,8 @@ public class GmailInboxPage extends PageObject {
     private static final String TEXT_MESSAGE_XPATH = ".//span[@class='y2']";
     private static final String CHECKBOX_XPATH = ".//div[@role='checkbox']";
     private static final String UNDO_LINK_XPATH = "//span[@id='link_undo']";
-    private static final String DELETE_BUTTON_XPATH = "//div[@aria-label ='Delete']/div[@class= 'asa']";
-    private static final String UNDO_DELETE_BUTTON_XPATH = "//span[@class='bofITb']";
+    private static final String DELETE_BUTTON_XPATH = ".//div[@class ='asa']";
+    private static final String UNDO_DELETE_BUTTON_XPATH = "//span[@id='link_undo']";
     private static final String INBOX_MESSAGE_LIST_XPATH = "//tr[contains(@class,'zA')]";
 
     @FindBy(xpath = CHECKBOX_XPATH)
@@ -46,6 +46,8 @@ public class GmailInboxPage extends PageObject {
 
     private List<TableRow> foundMessages;
 
+    public GmailInboxPage() {
+    }
 
     public GmailInboxPage(WebDriver driver) {
         super(driver);
@@ -57,15 +59,17 @@ public class GmailInboxPage extends PageObject {
     }
 
     public List<TableRow> findMessage(Message messageTemplate, int amount) {
-        LOG.info("Find " + amount + " message using template : " + messageTemplate);
+        LOG.info("Searching " + amount + " message using template : " + messageTemplate + "Thread id: " +Thread.currentThread().getId());
         int count = 0;
         foundMessages = new ArrayList<>();
         for (TableRow message : inboxMessages) {
-            new FluentWait<>(driver)
+           /* new FluentWait<>(driver)
                     .withTimeout(Duration.ofMinutes(1))
                     .pollingEvery(Duration.ofSeconds(3))
                     .ignoring(NoSuchElementException.class)
-                    .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(SENDER_XPATH)));
+                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(SENDER_XPATH)));*/
+            new WebDriverWait(driver, 30)
+                    .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(By.xpath(INBOX_MESSAGE_LIST_XPATH))));
             Message foundMessage = new Message.MessageBuilder().setSender(message.findElement(By.xpath(SENDER_XPATH)).getText().trim())
                     .setSubject(message.findElement(By.xpath(SUBJECT_XPATH)).getText().trim())
                     .setMessageText(message.findElement(By.xpath(TEXT_MESSAGE_XPATH)).getText().replaceAll("(^\\s+-\\s+)(\\n)", ""))
@@ -90,14 +94,25 @@ public class GmailInboxPage extends PageObject {
 
     public void deleteSelectedMessage() {
         LOG.info("Click delete button on " + this.getClass().getSimpleName());
-        new WebDriverWait(driver, 20)
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(DELETE_BUTTON_XPATH)));
+       new FluentWait<>(driver)
+                .withTimeout(Duration.ofMinutes(1))
+                .pollingEvery(Duration.ofSeconds(2))
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(DELETE_BUTTON_XPATH)));
+      /*  new WebDriverWait(driver, 20)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(DELETE_BUTTON_XPATH)));*/
         deleteButton.click();
+        //deleteButton.click();
     }
 
     public void undoDeleteOperation() {
-        new WebDriverWait(driver, 20)
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(UNDO_LINK_XPATH)));
+        new FluentWait<>(driver)
+                .withTimeout(Duration.ofMinutes(1))
+                .pollingEvery(Duration.ofSeconds(2))
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(UNDO_LINK_XPATH)));
+       /* new WebDriverWait(driver, 20)
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(UNDO_LINK_XPATH)));*/
         undoButtron.click();
     }
 

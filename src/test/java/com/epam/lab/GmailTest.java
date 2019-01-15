@@ -18,35 +18,33 @@ import org.uncommons.reportng.HTMLReporter;
 
 import java.util.Iterator;
 
+
 @Listeners({HTMLReporter.class, CustomTestListener.class})
 public class GmailTest {
 
     private Message message;
     private Property prop = Property.getInstance();
     private int amount;
-    private GmailLoginPageBO loginPageBO;
-    private GmailInboxPageBO inboxPageBO;
-    private WebDriver driver;
 
-    @BeforeClass
+    @BeforeTest
     public void setUp() {
         this.message = new Message.MessageBuilder().setSender(prop.getPropertyByKey("fromWho"))
                 .setSubject(prop.getPropertyByKey("subject"))
                 .setMessageText(prop.getPropertyByKey("message"))
                 .build();
         this.amount = 3;
-        this.driver = WebDriverPool.getInstance();
     }
-
-    @Test(dataProvider = "users")
+/*
+    @Test(dataProvider = "users", threadPoolSize = 3)
     public void loginTest(User user) {
-        loginPageBO = new GmailLoginPageBO(new GmailLoginPage(driver));
+        this.driver = WebDriverPool.getInstance();
+        GmailLoginPageBO loginPageBO = new GmailLoginPageBO(new GmailLoginPage(driver));
         loginPageBO.loadUrl("https://mail.google.com/mail/");
         loginPageBO.login(user);
         Assert.assertTrue(loginPageBO.isLogged(user));
     }
 
-    @Test(dependsOnMethods = {"loginTest"})
+    @Test(dependsOnMethods = {"loginTest"}, threadPoolSize = 3)
     public void findMessageTest() {
         inboxPageBO = new GmailInboxPageBO(new GmailInboxPage(driver));
         inboxPageBO.findMessage(message, amount);
@@ -54,26 +52,44 @@ public class GmailTest {
     }
 
 
-    @Test(dependsOnMethods = {"findMessageTest"})
+    @Test(dependsOnMethods = {"findMessageTest"}, threadPoolSize = 3)
     public void deleteMessage() {
         inboxPageBO.selectMessage();
         inboxPageBO.deleteMessage();
         Assert.assertTrue(inboxPageBO.isMessageDeleted(message, amount));
     }
 
-    @Test(dependsOnMethods = {"deleteMessage"})
+    @Test(dependsOnMethods = {"deleteMessage"}, threadPoolSize = 3)
     public void restoreMessage() {
+        inboxPageBO.restoreDeletedMessage();
+        Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
+    }*/
+
+    @Test(dataProvider = "users", threadPoolSize = 3)
+    public void deleteTest(User user){
+        WebDriver driver = WebDriverPool.getInstance();
+        GmailLoginPageBO loginPageBO = new GmailLoginPageBO(new GmailLoginPage(driver));
+        loginPageBO.loadUrl("https://mail.google.com/mail/");
+        loginPageBO.login(user);
+        Assert.assertTrue(loginPageBO.isLogged(user));
+        GmailInboxPageBO inboxPageBO = new GmailInboxPageBO(new GmailInboxPage(driver));
+        inboxPageBO.findMessage(message, amount);
+        Assert.assertTrue(inboxPageBO.isMessageFound(amount));
+        inboxPageBO.selectMessage();
+        inboxPageBO.deleteMessage();
+        Assert.assertTrue(inboxPageBO.isMessageDeleted(message, amount));
         inboxPageBO.restoreDeletedMessage();
         Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
     }
 
-    @DataProvider(name = "users", parallel = true)
+    @DataProvider(name = "users", parallel = true )
     public Iterator<User> getDataFromXML() {
         return Parser.<UsersModel>XMLParse("./users.xml").getUsers().iterator();
     }
 
-    @AfterClass
+    @AfterTest
     public void close() {
-        //driver.close();
+       // driver.close();
+        WebDriverPool.closeAllWebDrivers();
     }
 }

@@ -35,7 +35,7 @@ public class GmailInboxPageBO {
     }
 
     public boolean isMessageRestored(Message message, int amount) {
-        return gmailInboxPage.isMessageRestored() && gmailInboxPage.findMessage(message, amount).size() == amount;
+        return  gmailInboxPage.findMessage(message, amount).size() == amount;
     }
 
 }

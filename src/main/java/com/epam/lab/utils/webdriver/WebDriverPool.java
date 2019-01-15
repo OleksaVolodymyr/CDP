@@ -12,16 +12,15 @@ public class WebDriverPool{
    // private static Logger LOG = LoggerFactory.getLogger(WebDriverPool.class);
     private static ThreadLocal<WebDriver> pool = new ThreadLocal<>();
     private static List<WebDriver> driversInThread = Collections.synchronizedList(new ArrayList<>());
-    private static WebDriver driver;
 
     public static synchronized WebDriver getInstance() {
         if (pool.get() == null) {
            // LOG.info("Create web driver, thread id : " + Thread.currentThread().getId());
             System.setProperty("webdriver.chrome.driver", "./resources/chromedriver.exe");
-            driver = new ChromeDriver();
+            WebDriver driver = new ChromeDriver();
             driver.manage().timeouts().pageLoadTimeout(50, TimeUnit.SECONDS);
             driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-            driver.manage().window().maximize();
+           // driver.manage().window().maximize();
             //driver.navigate().to("https://booking.uz.gov.ua");
             driversInThread.add(driver);
             pool.set(driver);
