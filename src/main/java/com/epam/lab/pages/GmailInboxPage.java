@@ -22,7 +22,7 @@ public class GmailInboxPage extends PageObject {
     private static final Logger LOG = Logger.getLogger(GmailInboxPage.class);
     private static final String SENDER_XPATH = ".//div[@class='yW']";
     private static final String SUBJECT_XPATH = ".//span[@class='bog']";
-    private static final String TEXT_MESSAGE_XPATH = ".//span[@class='y2']";
+    private static final String TEXT_MESSAGE_XPATH = "//span[@class='y2']";
     private static final String CHECKBOX_XPATH = ".//div[@role='checkbox']";
     private static final String UNDO_LINK_XPATH = "//span[@id='link_undo']";
     private static final String DELETE_BUTTON_XPATH = ".//div[@class ='asa']";
@@ -69,17 +69,28 @@ public class GmailInboxPage extends PageObject {
                     .ignoring(NoSuchElementException.class)
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(SENDER_XPATH)));*/
             new WebDriverWait(driver, 30)
-                    .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(By.xpath(INBOX_MESSAGE_LIST_XPATH))));
-            Message foundMessage = new Message.MessageBuilder().setSender(message.findElement(By.xpath(SENDER_XPATH)).getText().trim())
-                    .setSubject(message.findElement(By.xpath(SUBJECT_XPATH)).getText().trim())
-                    .setMessageText(message.findElement(By.xpath(TEXT_MESSAGE_XPATH)).getText().replaceAll("(^\\s+-\\s+)(\\n)", ""))
-                    .build();
+                    .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(By.xpath
+                            (SENDER_XPATH))));
+            Message foundMessage = buildMessage(message);
             if (messageTemplate.equals(foundMessage) && count < amount) {
                 this.foundMessages.add(message);
                 count++;
             }
         }
         return foundMessages;
+    }
+
+    private Message buildMessage(TableRow message) {
+        return new Message.MessageBuilder().setSender(new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(message.findElement(By.xpath(SENDER_XPATH)))))
+                .getText().trim())
+                .setSubject(new WebDriverWait(driver, 30)
+                        .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(message.findElement(By.xpath(SUBJECT_XPATH)))))
+                        .getText().trim())
+                .setMessageText(new WebDriverWait(driver, 30)
+                        .until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(message.findElement(By.xpath(TEXT_MESSAGE_XPATH)))))
+                        .getText().replaceAll("(^\\s+-\\s+)(\\n)", ""))
+                .build();
     }
 
     public void selectMessage() {

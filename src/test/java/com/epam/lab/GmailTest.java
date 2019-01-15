@@ -2,7 +2,6 @@ package com.epam.lab;
 
 import com.epam.lab.bussinesobject.GmailInboxPageBO;
 import com.epam.lab.bussinesobject.GmailLoginPageBO;
-import com.epam.lab.listener.CustomTestListener;
 import com.epam.lab.model.Message;
 import com.epam.lab.model.User;
 import com.epam.lab.model.UsersModel;
@@ -11,28 +10,28 @@ import com.epam.lab.pages.GmailLoginPage;
 import com.epam.lab.properties.Property;
 import com.epam.lab.utils.Parser;
 import com.epam.lab.utils.webdriver.WebDriverPool;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.*;
-import org.uncommons.reportng.HTMLReporter;
 
-import java.util.Iterator;
+import java.util.stream.Stream;
 
-
-@Listeners({HTMLReporter.class, CustomTestListener.class})
+@Execution(ExecutionMode.CONCURRENT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GmailTest {
 
     private Message message;
     private Property prop = Property.getInstance();
     private int amount;
 
-    @BeforeTest
-    public void setUp() {
-        this.message = new Message.MessageBuilder().setSender(prop.getPropertyByKey("fromWho"))
-                .setSubject(prop.getPropertyByKey("subject"))
-                .setMessageText(prop.getPropertyByKey("message"))
-                .build();
-        this.amount = 3;
+    static Stream<User> getUsers() {
+        return Parser.<UsersModel>XMLParse("resources/users.xml").getUsers().stream();
     }
 /*
     @Test(dataProvider = "users", threadPoolSize = 3)
@@ -65,8 +64,19 @@ public class GmailTest {
         Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
     }*/
 
-    @Test(dataProvider = "users", threadPoolSize = 3)
-    public void deleteTest(User user){
+    @BeforeAll
+    public void setUp() {
+        this.message = new Message.MessageBuilder().setSender(prop.getPropertyByKey("fromWho"))
+                .setSubject(prop.getPropertyByKey("subject"))
+                .setMessageText(prop.getPropertyByKey("message"))
+                .build();
+        this.amount = 3;
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("getUsers")
+    public void deleteTest(User user) {
         WebDriver driver = WebDriverPool.getInstance();
         GmailLoginPageBO loginPageBO = new GmailLoginPageBO(new GmailLoginPage(driver));
         loginPageBO.loadUrl("https://mail.google.com/mail/");
@@ -82,14 +92,9 @@ public class GmailTest {
         Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
     }
 
-    @DataProvider(name = "users", parallel = true )
-    public Iterator<User> getDataFromXML() {
-        return Parser.<UsersModel>XMLParse("./users.xml").getUsers().iterator();
-    }
-
-    @AfterTest
+    @AfterAll
     public void close() {
-       // driver.close();
+        // driver.close();
         WebDriverPool.closeAllWebDrivers();
     }
 }
