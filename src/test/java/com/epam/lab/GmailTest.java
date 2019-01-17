@@ -2,6 +2,7 @@ package com.epam.lab;
 
 import com.epam.lab.bussinesobject.GmailInboxPageBO;
 import com.epam.lab.bussinesobject.GmailLoginPageBO;
+import com.epam.lab.exceptions.NoSuchMessageFoundException;
 import com.epam.lab.model.Message;
 import com.epam.lab.model.User;
 import com.epam.lab.model.UsersModel;
@@ -16,13 +17,14 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import java.util.stream.Stream;
 
-@Execution(ExecutionMode.CONCURRENT)
+//@Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GmailTest {
 
@@ -87,10 +89,11 @@ public class GmailTest {
         Assert.assertTrue(inboxPageBO.isMessageFound(amount));
         inboxPageBO.selectMessage();
         inboxPageBO.deleteMessage();
-        Assert.assertTrue(inboxPageBO.isMessageDeleted(message, amount));
+        Assert.assertTrue(inboxPageBO.isMessageDeleted());
         inboxPageBO.restoreDeletedMessage();
-        Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
+        Assert.assertTrue(inboxPageBO.isMessageRestored());
     }
+
 
     @AfterAll
     public void close() {

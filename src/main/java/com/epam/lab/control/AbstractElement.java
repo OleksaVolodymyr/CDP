@@ -15,6 +15,10 @@ public abstract class AbstractElement {
         return webElement.isDisplayed();
     }
 
+    public boolean isEnabled() {
+        return webElement.isEnabled();
+    }
+
     public WebElement findElement(By by) {
         return webElement.findElement(by);
     }
