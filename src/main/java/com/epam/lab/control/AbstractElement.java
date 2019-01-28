@@ -18,4 +18,8 @@ public abstract class AbstractElement {
     public WebElement findElement(By by) {
         return webElement.findElement(by);
     }
+
+    public boolean isEnabled() {
+        return webElement.isEnabled();
+    }
 }

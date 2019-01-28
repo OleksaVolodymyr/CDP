@@ -10,6 +10,7 @@ import com.epam.lab.pages.GmailInboxPage;
 import com.epam.lab.pages.GmailLoginPage;
 import com.epam.lab.properties.Property;
 import com.epam.lab.utils.Parser;
+import com.epam.lab.utils.logging.LogReporter;
 import com.epam.lab.utils.webdriver.WebDriverPool;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -19,7 +20,7 @@ import org.uncommons.reportng.HTMLReporter;
 import java.util.Iterator;
 
 
-@Listeners({HTMLReporter.class, CustomTestListener.class})
+@Listeners({HTMLReporter.class, CustomTestListener.class, LogReporter.class})
 public class GmailTest {
 
     private Message message;
@@ -66,7 +67,7 @@ public class GmailTest {
     }*/
 
     @Test(dataProvider = "users", threadPoolSize = 3)
-    public void deleteTest(User user){
+    public void deleteTest(User user) {
         WebDriver driver = WebDriverPool.getInstance();
         GmailLoginPageBO loginPageBO = new GmailLoginPageBO(new GmailLoginPage(driver));
         loginPageBO.loadUrl("https://mail.google.com/mail/");
@@ -77,19 +78,20 @@ public class GmailTest {
         Assert.assertTrue(inboxPageBO.isMessageFound(amount));
         inboxPageBO.selectMessage();
         inboxPageBO.deleteMessage();
-        Assert.assertTrue(inboxPageBO.isMessageDeleted(message, amount));
+        Assert.assertTrue(inboxPageBO.isMessageDeleted());
         inboxPageBO.restoreDeletedMessage();
-        Assert.assertTrue(inboxPageBO.isMessageRestored(message, amount));
+        Assert.assertTrue(inboxPageBO.isMessageRestored());
+        //  Assert.assertTrue(true);
     }
 
-    @DataProvider(name = "users", parallel = true )
+    @DataProvider(name = "users", parallel = true)
     public Iterator<User> getDataFromXML() {
-        return Parser.<UsersModel>XMLParse("./users.xml").getUsers().iterator();
+        return Parser.<UsersModel>XMLParse("./resources/users.xml").getUsers().iterator();
     }
 
     @AfterTest
     public void close() {
-       // driver.close();
+        // driver.close();
         WebDriverPool.closeAllWebDrivers();
     }
 }

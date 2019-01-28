@@ -4,12 +4,13 @@ import com.epam.lab.control.Button;
 import com.epam.lab.control.CheckBox;
 import com.epam.lab.control.TableRow;
 import com.epam.lab.model.Message;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class GmailBinPage extends PageObject {
-    private static final Logger LOG = Logger.getLogger(GmailBinPage.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GmailBinPage.class);
     private static final String MORE_BUTTON_XPATH = "//span[@class ='CJ']";
     private static final String BIN_BUTTON_XPATH = "//span[@class ='nU ']/a[contains(@href, '#trash')]";
     private static final String MOVE_TO_XPATH = "//div[@id = ':ed']";

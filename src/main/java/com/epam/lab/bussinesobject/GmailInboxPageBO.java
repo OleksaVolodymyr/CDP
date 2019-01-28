@@ -26,16 +26,16 @@ public class GmailInboxPageBO {
         gmailInboxPage.deleteSelectedMessage();
     }
 
-    public boolean isMessageDeleted(Message message, int amount) {
-        return gmailInboxPage.findMessage(message, amount).isEmpty();
+    public boolean isMessageDeleted() {
+        return gmailInboxPage.isMessagesDeleted();
     }
 
     public void restoreDeletedMessage() {
         gmailInboxPage.undoDeleteOperation();
     }
 
-    public boolean isMessageRestored(Message message, int amount) {
-        return  gmailInboxPage.findMessage(message, amount).size() == amount;
+    public boolean isMessageRestored() {
+        return gmailInboxPage.isMessageRestored();
     }
 
 }
