@@ -4,14 +4,13 @@ import com.epam.lab.control.Button;
 import com.epam.lab.control.Label;
 import com.epam.lab.control.TextInput;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-
+import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class GmailLoginPage extends PageObject {
@@ -56,6 +55,8 @@ public class GmailLoginPage extends PageObject {
 
     public void enterPasswordAndSubmit(String password) {
         LOG.info("Entering password : " + password + " on " + this.getClass().getSimpleName());
+        Actions action= new Actions(driver);
+       
         new FluentWait<>(driver).withTimeout(Duration.ofMinutes(1))
                 .pollingEvery(Duration.ofSeconds(3))
                 .ignoring(NoSuchElementException.class)
