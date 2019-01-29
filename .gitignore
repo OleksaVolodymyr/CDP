@@ -1,11 +1,12 @@
 #Directory
 .idea/
-.settings/
-[Tt]arget/
+**/.idea/
+**/.settings/
+**/[Tt]arget/
 **/resources/drivers/*
 **/resources/csv/*
-[Bb]in/
-[Tt]est-output
+**/[Bb]in/
+**/[Tt]est-output
 
 #Files
 [Ll]og_jul.txt
@@ -15,5 +16,8 @@
 [Tt]estng.xml
 [Uu]sers.xml
 [Cc]hromedriver.exe
+[Cc]onfig.properties
+[Rr]eporting.iml
+
 
 
