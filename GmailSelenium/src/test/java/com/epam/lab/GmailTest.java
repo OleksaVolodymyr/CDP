@@ -16,7 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.uncommons.reportng.HTMLReporter;
-
 import java.util.Iterator;
 
 
@@ -73,14 +72,14 @@ public class GmailTest {
         loginPageBO.loadUrl("https://mail.google.com/mail/");
         loginPageBO.login(user);
         Assert.assertTrue(loginPageBO.isLogged(user));
-        GmailInboxPageBO inboxPageBO = new GmailInboxPageBO(new GmailInboxPage(driver));
+        /*GmailInboxPageBO inboxPageBO = new GmailInboxPageBO(new GmailInboxPage(driver));
         inboxPageBO.findMessage(message, amount);
         Assert.assertTrue(inboxPageBO.isMessageFound(amount));
         inboxPageBO.selectMessage();
         inboxPageBO.deleteMessage();
         Assert.assertTrue(inboxPageBO.isMessageDeleted());
         inboxPageBO.restoreDeletedMessage();
-        Assert.assertTrue(inboxPageBO.isMessageRestored());
+        Assert.assertTrue(inboxPageBO.isMessageRestored());*/
         //  Assert.assertTrue(true);
     }
 

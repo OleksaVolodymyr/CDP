@@ -1,10 +1,12 @@
 package com.epam.lab.utils.appender;
 
+
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import com.epam.lab.utils.logging.ITestLog;
 import com.epam.lab.utils.logging.LogUtils;
 import com.epam.lab.utils.logging.TestLog;
+
 
 public class LogsCollectionAppender extends AppenderBase<LoggingEvent> {
 

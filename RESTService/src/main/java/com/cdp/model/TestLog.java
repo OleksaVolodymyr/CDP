@@ -1,12 +1,16 @@
-package com.epam.lab.utils.logging;
+package com.cdp.model;
 
-import java.time.Instant;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class TestLog implements ITestLog {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class TestLog implements Serializable {
 
     private String message;
     private String level;
@@ -16,75 +20,73 @@ public class TestLog implements ITestLog {
     private int lineNumber;
     private String methodName;
 
+    public TestLog() {
+    }
+
+    public TestLog(String message, String level, String threadName, String date, String className, int lineNumber, String methodName) {
+        this.message = message;
+        this.level = level;
+        this.threadName = threadName;
+        this.date = date;
+        this.className = className;
+        this.lineNumber = lineNumber;
+        this.methodName = methodName;
+    }
 
     public String getMessage() {
         return message;
     }
 
-    public TestLog setMessage(String message) {
+    public void setMessage(String message) {
         this.message = message;
-        return this;
     }
 
     public String getLevel() {
         return level;
     }
 
-    public TestLog setLevel(String level) {
+    public void setLevel(String level) {
         this.level = level;
-        return this;
     }
 
     public String getThreadName() {
         return threadName;
     }
 
-    public TestLog setThreadName(String threadName) {
+    public void setThreadName(String threadName) {
         this.threadName = threadName;
-        return this;
     }
 
     public String getDate() {
         return date;
     }
 
-    public TestLog setDate(long date) {
-        this.date =
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())
-                        .format(DateTimeFormatter.ofPattern("dd/MMM/yyyy HH:mm:ss"));
-        return this;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public TestLog setClassName(String className) {
+    public void setClassName(String className) {
         this.className = className;
-        return this;
     }
 
     public int getLineNumber() {
         return lineNumber;
     }
 
-    public TestLog setLineNumber(int lineNumber) {
+    public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
-        return this;
     }
 
     public String getMethodName() {
         return methodName;
     }
 
-    public TestLog setMethodName(String methodName) {
+    public void setMethodName(String methodName) {
         this.methodName = methodName;
-        return this;
-    }
-
-    @Override
-    public TestLog build() {
-        return this;
     }
 
     @Override

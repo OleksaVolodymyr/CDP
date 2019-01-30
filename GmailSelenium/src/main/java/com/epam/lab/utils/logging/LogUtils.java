@@ -25,6 +25,10 @@ public class LogUtils {
         logs.forEach((k, v) -> v.forEach(System.out::println));
     }
 
+    public static Map<Long, List<ITestLog>> getLogs() {
+        return logs;
+    }
+
     public static synchronized void cleanLogs() {
         for (Long key : logs.keySet()) {
             logs.remove(key);

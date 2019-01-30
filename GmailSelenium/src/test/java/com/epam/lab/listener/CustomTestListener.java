@@ -1,13 +1,10 @@
 package com.epam.lab.listener;
 
-import com.epam.lab.utils.logging.ITestLog;
-import com.epam.lab.utils.logging.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.*;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class CustomTestListener implements ITestListener, IInvokedMethodListener {
 
