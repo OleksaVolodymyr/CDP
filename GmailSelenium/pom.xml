@@ -68,13 +68,7 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.11.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.11</version>
-			<scope>compile</scope>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>

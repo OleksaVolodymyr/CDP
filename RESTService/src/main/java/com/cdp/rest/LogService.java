@@ -1,7 +1,7 @@
 package com.cdp.rest;
 
-import com.cdp.model.Logs;
 import com.cdp.model.TestLog;
+import com.cdp.model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +25,19 @@ public class LogService {
     public Response saveLogsToDataBase(ArrayList<TestLog> logs) {
         logs.forEach(System.out::println);
         return Response.ok("Received").build();
+    }
+
+
+    @POST
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/addUser")
+    public Response addUser(User user) {
+        System.out.println(user);
+        if (user.getAge() < 0 || user.getAge() > 150)
+            return Response.status(422).entity("{\"Msg\": \"User has invalid age\"}").build();
+        return Response.ok("Success").build();
+
     }
 
 }

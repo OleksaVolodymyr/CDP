@@ -4,13 +4,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TestLog implements Serializable {
+public class TestLog implements Serializable, Comparable<TestLog> {
 
     private String message;
     private String level;
@@ -122,4 +120,8 @@ public class TestLog implements Serializable {
     }
 
 
+    @Override
+    public int compareTo(TestLog o) {
+        return this.getDate().compareTo(o.getDate());
+    }
 }

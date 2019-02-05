@@ -4,18 +4,13 @@ import com.epam.lab.control.Button;
 import com.epam.lab.control.CheckBox;
 import com.epam.lab.control.Label;
 import com.epam.lab.control.TableRow;
-import com.epam.lab.exceptions.NoSuchMessageFoundException;
-import com.epam.lab.model.Message;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -31,7 +26,7 @@ public class GmailInboxPage extends PageObject {
     private static final String UNDO_LINK_XPATH = "//span[@id='link_undo']";
     private static final String DELETE_BUTTON_XPATH = ".//div[@class ='asa']";
     private static final String UNDO_DELETE_BUTTON_XPATH = "//span[@id='link_undo']";
-    private static final String INBOX_MESSAGE_LIST_XPATH = "//tr[contains(@class,'zA')]";
+    private static final String INBOX_MESSAGE_LIST_XPATH = ".//tr[contains(@class, 'zA')]";
     private static final String RESTORED_MESSAGE_XPATH = "//span[@class = 'bAq']";
 
     @FindBy(xpath = CHECKBOX_XPATH)
@@ -52,7 +47,6 @@ public class GmailInboxPage extends PageObject {
     @FindBy(xpath = RESTORED_MESSAGE_XPATH)
     private Label restoredMessage;
 
-    private List<TableRow> foundMessages;
 
     public GmailInboxPage() {
     }
@@ -61,53 +55,17 @@ public class GmailInboxPage extends PageObject {
         super(driver);
     }
 
-    public List<TableRow> getFoundMessages() {
-        if (foundMessages.isEmpty()) throw new NoSuchMessageFoundException("There no message found with such template");
-        return foundMessages;
-    }
 
-    public List<TableRow> findMessage(Message messageTemplate, int amount) {
-        LOG.info("Searching " + amount + " message using template : " + messageTemplate + "Thread id: " + Thread.currentThread().getId());
-        int count = 0;
-        foundMessages = new ArrayList<>();
-        for (TableRow message : inboxMessages) {
-            new FluentWait<>(driver)
-                    .withTimeout(Duration.ofMinutes(1))
-                    .pollingEvery(Duration.ofSeconds(3))
-                    .ignoring(NoSuchElementException.class)
-                    .ignoring(StaleElementReferenceException.class)
-                    .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(message.findElement(By.xpath(SENDER_XPATH)))));
-            Message foundMessage = new Message.MessageBuilder().setSender(message.findElement(By.xpath(SENDER_XPATH)).getText().trim())
-                    .setSubject(message.findElement(By.xpath(SUBJECT_XPATH)).getText().trim())
-                    .setMessageText(message.findElement(By.xpath(TEXT_MESSAGE_XPATH)).getText().replaceAll("(^\\s+-\\s+)(\\n)", ""))
-                    .build();
-            if (messageTemplate.equals(foundMessage) && count < amount) {
-                this.foundMessages.add(message);
-                count++;
-            }
-        }
-        return foundMessages;
-    }
-
-    private Message buildMessage(TableRow message) {
-        return new Message.MessageBuilder().setSender(new WebDriverWait(driver, 30)
-                .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(message.findElement(By.xpath(SENDER_XPATH)))))
-                .getText().trim())
-                .setSubject(new WebDriverWait(driver, 30)
-                        .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(message.findElement(By.xpath(SUBJECT_XPATH)))))
-                        .getText().trim())
-                .setMessageText(new WebDriverWait(driver, 30)
-                        .until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(message.findElement(By.xpath(TEXT_MESSAGE_XPATH)))))
-                        .getText().replaceAll("(^\\s+-\\s+)(\\n)", ""))
-                .build();
-    }
-
-    public void selectMessage() {
+    public void selectMessage(int amount) {
         LOG.info("Click message checkBox on " + this.getClass().getSimpleName());
-        for (TableRow message : foundMessages) {
+        int i = 0;
+        List<TableRow> msg = new ArrayList<>(inboxMessages);
+        System.out.println(inboxMessages.size() + "!!!!!");
+        for (TableRow message : msg) {
             CheckBox checkBox = new CheckBox(message.findElement(By.xpath(CHECKBOX_XPATH)));
-            if (!checkBox.isSelected()) {
+            if (!checkBox.isSelected() && i < amount) {
                 checkBox.click();
+                i++;
             }
         }
     }
@@ -118,13 +76,13 @@ public class GmailInboxPage extends PageObject {
                 .withTimeout(Duration.ofMinutes(1))
                 .pollingEvery(Duration.ofSeconds(2))
                 .ignoring(NoSuchElementException.class)
-                .until(ExpectedConditions.elementToBeClickable(By.xpath(DELETE_BUTTON_XPATH)));
+                .until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(By.xpath(DELETE_BUTTON_XPATH))));
         deleteButton.click();
 
     }
 
     public void undoDeleteOperation() {
-        LOG.info("Deleting selected messages ... ");
+        LOG.info("Restore deleted messages ... ");
         new FluentWait<>(driver)
                 .withTimeout(Duration.ofMinutes(1))
                 .pollingEvery(Duration.ofSeconds(2))
@@ -145,7 +103,5 @@ public class GmailInboxPage extends PageObject {
         return undoDelete.getText();
     }
 
-    public boolean isMessageFound(int amount) {
-        return this.getFoundMessages().size() == amount;
-    }
+
 }

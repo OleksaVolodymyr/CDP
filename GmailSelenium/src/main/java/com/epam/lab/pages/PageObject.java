@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class PageObject {
 
-    protected WebDriver driver;
+    WebDriver driver;
 
     public PageObject(WebDriver driver) {
         this.driver = driver;
@@ -15,7 +15,7 @@ public class PageObject {
     }
 
     public PageObject() {
-        this(WebDriverPool.getInstance());
+        this(WebDriverPool.getInstance(WebDriverPool.Driver.CHROME));
     }
 
     public void goTo(String url) {

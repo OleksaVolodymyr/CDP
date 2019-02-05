@@ -11,6 +11,7 @@ public class LogReporter implements IReporter {
     @Override
     public void generateReport(List<XmlSuite> list, List<ISuite> list1, String s) {
         System.out.println("TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        LogUtils.getLogs().forEach((k,v)->WebServiceClient.sendLogs(v));
+       // LogUtils.getLogs().forEach((k,v)-> WebServiceClient.sendLogs(v));
+        //LogUtils.getLogs().forEach((k, v) -> v.forEach(System.out::println));
     }
 }

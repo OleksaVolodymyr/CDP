@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class WebDriverPoolFactory {
                     operaPool.set(driver);
                     driverInThread.add(driver);
                     break;
+                case "Remote":
+                    DesiredCapabilities capabilities = new DesiredCapabilities();
             }
         }
         return driversPool.get(browserName.toUpperCase()).get();
@@ -66,4 +69,7 @@ public class WebDriverPoolFactory {
             driver.quit();
         }
     }
+
+
+
 }

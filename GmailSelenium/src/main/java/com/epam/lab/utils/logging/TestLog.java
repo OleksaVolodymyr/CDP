@@ -6,7 +6,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class TestLog implements ITestLog {
+public class TestLog implements ITestLog, Comparable<TestLog> {
 
     private String message;
     private String level;
@@ -87,6 +87,7 @@ public class TestLog implements ITestLog {
         return this;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,4 +121,8 @@ public class TestLog implements ITestLog {
     }
 
 
+    @Override
+    public int compareTo(TestLog o) {
+        return this.getDate().compareTo(o.getDate());
+    }
 }
