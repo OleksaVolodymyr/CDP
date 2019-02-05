@@ -14,38 +14,27 @@ import static io.restassured.RestAssured.given;
 
 public class ServiceTest {
 
+    private static final String ADD_USER_URL = "http://localhost:8080/LogService/rest/logs/addUser";
 
     @Test(dataProvider = "validBoundaryValues")
     public void BoundaryValidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
-                .body(user).when().post(
-                "http" +
-                        "://localhost:8080/LogService" +
-                        "/rest" +
-                        "/logs" +
-                        "/addUser").then().statusCode(200);
+                .body(user).when().post(ADD_USER_URL)
+                .then().statusCode(200);
     }
 
     @Test(dataProvider = "invalidBoundaryValues")
     public void BoundaryInvalidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
-                .body(user).when().post(
-                "http" +
-                        "://localhost:8080/LogService" +
-                        "/rest" +
-                        "/logs" +
-                        "/addUser").then().statusCode(422).body("Msg", Matchers.is("User has invalid age"));
+                .body(user).when().post(ADD_USER_URL)
+                .then().statusCode(422).body("Msg", Matchers.is("User has invalid age"));
     }
 
     @Test(dataProvider = "equivalentPartitioningValues")
     public void EQValidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
-                .body(user).when().post(
-                "http" +
-                        "://localhost:8080/LogService" +
-                        "/rest" +
-                        "/logs" +
-                        "/addUser").then().statusCode(200);
+                .body(user).when().post(ADD_USER_URL)
+                .then().statusCode(200);
     }
 
     @DataProvider(name = "validBoundaryValues")
