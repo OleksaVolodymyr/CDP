@@ -1,5 +1,6 @@
 package com.cdp.rest;
 
+import com.cdp.database.LogDAO;
 import com.cdp.model.TestLog;
 import com.cdp.model.User;
 
@@ -23,7 +24,7 @@ public class LogService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/saveLogsToDB")
     public Response saveLogsToDataBase(ArrayList<TestLog> logs) {
-        logs.forEach(System.out::println);
+        logs.forEach(LogDAO::insertLogs);
         return Response.ok("Received").build();
     }
 

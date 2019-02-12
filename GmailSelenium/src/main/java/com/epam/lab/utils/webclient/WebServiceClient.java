@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WebServiceClient {
 
-    private final static String SERVICE_URL = "http://localhost:8080/LogService/rest/logs/";
+    private final static String SERVICE_URL = "http://localhost:8080/LogService/logs/";
     private final static String SAVE_LOGS_TO_DB_PATH = "saveLogsToDB";
 
 

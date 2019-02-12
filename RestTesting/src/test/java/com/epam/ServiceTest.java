@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 
 public class ServiceTest {
 
-    private static final String ADD_USER_URL = "http://localhost:8080/LogService/rest/logs/addUser";
+    private static final String ADD_USER_URL = "http://localhost:8080/LogService/logs/addUser";
 
     @Test(dataProvider = "validBoundaryValues")
     public void BoundaryValidTest(User user) {

@@ -1,5 +1,7 @@
 package com.cdp.model;
 
+import com.cdp.database.annotation.Column;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,12 +12,19 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TestLog implements Serializable, Comparable<TestLog> {
 
+    @Column(value = "message")
     private String message;
+    @Column(value = "level")
     private String level;
+    @Column(value = "threadName")
     private String threadName;
+    @Column(value = "date")
     private String date;
+    @Column(value = "className")
     private String className;
+    @Column(value = "lineNumber")
     private int lineNumber;
+    @Column(value = "methodName")
     private String methodName;
 
     public TestLog() {
