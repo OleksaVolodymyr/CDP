@@ -23,7 +23,7 @@ public class LogDAO {
             statement.setString(6, log.getMethodName());
             statement.setString(7, log.getMessage());
             int countUpdates = statement.executeUpdate();
-            System.out.println("Insert " + countUpdates + " records in tariff table");
+            System.out.println("Insert " + countUpdates + " records in log table");
         } catch (SQLException e) {
             e.printStackTrace();
         }
