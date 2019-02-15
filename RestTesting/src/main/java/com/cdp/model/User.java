@@ -1,6 +1,6 @@
 package com.cdp.model;
 
-import com.cdp.utils.CSVElement;
+import com.cdp.util.CSVElement;
 
 import java.util.Objects;
 

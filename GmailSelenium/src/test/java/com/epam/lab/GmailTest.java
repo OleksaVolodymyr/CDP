@@ -1,15 +1,15 @@
 package com.epam.lab;
 
-import com.epam.lab.bussinesobject.GmailInboxPageBO;
-import com.epam.lab.bussinesobject.GmailLoginPageBO;
+import com.epam.lab.bo.GmailInboxPageBO;
+import com.epam.lab.bo.GmailLoginPageBO;
 import com.epam.lab.listener.CustomTestListener;
 import com.epam.lab.model.User;
 import com.epam.lab.model.UsersModel;
-import com.epam.lab.pages.GmailInboxPage;
-import com.epam.lab.pages.GmailLoginPage;
-import com.epam.lab.utils.Parser;
-import com.epam.lab.utils.logging.LogReporter;
-import com.epam.lab.utils.webdriver.WebDriverPool;
+import com.epam.lab.page.GmailInboxPage;
+import com.epam.lab.page.GmailLoginPage;
+import com.epam.lab.util.Parser;
+import com.epam.lab.util.logging.LogReporter;
+import com.epam.lab.util.webdriver.WebDriverPool;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;

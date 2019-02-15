@@ -2,57 +2,38 @@ package com.epam;
 
 
 import com.cdp.model.User;
-import com.cdp.utils.Parser;
+import com.epam.dataprovider.TestData;
+import com.epam.dataprovider.annotation.SourcePath;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.Iterator;
 
 import static io.restassured.RestAssured.given;
 
+@Test(dataProviderClass = TestData.class, dataProvider = "CSVData")
 public class ServiceTest {
 
     private static final String ADD_USER_URL = "http://localhost:8080/LogService/logs/addUser";
 
-    @Test(dataProvider = "validBoundaryValues")
+    @SourcePath(path = "./resources/uservalid.csv", model = User.class)
     public void BoundaryValidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
                 .body(user).when().post(ADD_USER_URL)
                 .then().statusCode(200);
     }
 
-    @Test(dataProvider = "invalidBoundaryValues")
+    @SourcePath(path = "./resources/userinvalid.csv", model = User.class)
     public void BoundaryInvalidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
                 .body(user).when().post(ADD_USER_URL)
                 .then().statusCode(422).body("Msg", Matchers.is("User has invalid age"));
     }
 
-    @Test(dataProvider = "equivalentPartitioningValues")
+    @SourcePath(path = "./resources/usereqvalid.csv", model = User.class)
     public void EQValidTest(User user) {
         given().contentType(ContentType.JSON).accept(ContentType.JSON)
                 .body(user).when().post(ADD_USER_URL)
                 .then().statusCode(200);
     }
-
-    @DataProvider(name = "validBoundaryValues")
-    public Iterator<User> validBoundaryValues() {
-        return Parser.parseCSV("./resources/uservalid.csv", User.class, ",").iterator();
-    }
-
-    @DataProvider(name = "invalidBoundaryValues")
-    public Iterator<User> invalidBoundaryValues() {
-        return Parser.parseCSV("./resources/userinvalid.csv", User.class,
-                ",").iterator();
-    }
-
-    @DataProvider(name = "equivalentPartitioningValues")
-    public Iterator<User> equivalentPartitioningValues() {
-        return Parser.parseCSV("./resources/usereqvalid.csv", User.class,
-                ",").iterator();
-    }
-
 
 }

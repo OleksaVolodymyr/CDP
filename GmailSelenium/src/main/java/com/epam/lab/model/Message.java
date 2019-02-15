@@ -8,32 +8,6 @@ public class Message {
     private String subject;
     private String message;
 
-    public static class MessageBuilder {
-        private String sender;
-        private String subject;
-        private String message;
-
-        public MessageBuilder setSender(String sender) {
-            this.sender = sender;
-            return this;
-        }
-
-        public MessageBuilder setSubject(String subject) {
-            this.subject = subject;
-            return this;
-        }
-
-        public MessageBuilder setMessageText(String messageText) {
-            this.message = messageText;
-            return this;
-        }
-
-        public Message build() {
-            return new Message(this);
-        }
-
-    }
-
     private Message(MessageBuilder builder) {
         this.sender = builder.sender;
         this.subject = builder.subject;
@@ -76,5 +50,31 @@ public class Message {
     public String toString() {
         return "Message [sender=" + this.sender + ", subject=" + this.subject + ", message=" + this.message
                 + "]\n";
+    }
+
+    public static class MessageBuilder {
+        private String sender;
+        private String subject;
+        private String message;
+
+        public MessageBuilder setSender(String sender) {
+            this.sender = sender;
+            return this;
+        }
+
+        public MessageBuilder setSubject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        public MessageBuilder setMessageText(String messageText) {
+            this.message = messageText;
+            return this;
+        }
+
+        public Message build() {
+            return new Message(this);
+        }
+
     }
 }

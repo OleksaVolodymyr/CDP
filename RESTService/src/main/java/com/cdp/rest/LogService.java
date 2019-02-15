@@ -1,6 +1,6 @@
 package com.cdp.rest;
 
-import com.cdp.database.LogDAO;
+import com.cdp.db.dao.LogDAO;
 import com.cdp.model.TestLog;
 import com.cdp.model.User;
 
