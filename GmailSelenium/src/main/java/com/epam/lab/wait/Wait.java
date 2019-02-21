@@ -13,6 +13,9 @@ public class Wait {
     private static final int TIMEOUT_DURATION = 1;
     private static final int POLLING_DURATION = 3;
 
+    private Wait() {
+    }
+
     public static void waitForElementDisplayed(WebDriver driver, final String locator) {
         waitForElementDisplayed(driver, locator, TIMEOUT_DURATION, POLLING_DURATION);
     }

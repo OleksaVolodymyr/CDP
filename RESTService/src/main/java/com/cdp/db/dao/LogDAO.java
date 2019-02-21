@@ -3,15 +3,21 @@ package com.cdp.db.dao;
 import com.cdp.db.connection.ConnectionFactory;
 import com.cdp.model.TestLog;
 import com.cdp.util.Transformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(LogDAO.class);
     private static final String INSERT_QUERY = "INSERT INTO log (level,threadName,date,className,lineNumber," +
             "methodName,message) Values (?,?,?,?,?,?,?);";
     private static final String SELECT_QUERY = "SELECT * FROM log";
+
+    private LogDAO() {
+    }
 
     public static void insertLogs(TestLog log) {
         try (Connection connection = ConnectionFactory.getConnection();
@@ -24,9 +30,9 @@ public class LogDAO {
             statement.setString(6, log.getMethodName());
             statement.setString(7, log.getMessage());
             int countUpdates = statement.executeUpdate();
-            System.out.println("Insert " + countUpdates + " records in log table");
+            LOG.info("Insert {} records in log table", countUpdates);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
     }
 
@@ -39,7 +45,7 @@ public class LogDAO {
                 logs.add(Transformer.toInstance(set, TestLog.class));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         return logs;
     }

@@ -44,13 +44,13 @@ public class GmailLoginPage extends PageObject {
     }
 
     public void enterLoginAndSubmit(String login) {
-        LOG.info("Enter login : " + login + " on " + this.getClass().getSimpleName());
+        LOG.info("Enter login : {} on {}", login, this.getClass().getSimpleName());
         loginInput.sendKeys(login);
         emailNextButton.click();
     }
 
     public void enterPasswordAndSubmit(String password) {
-        LOG.info("Entering password : " + password + " on " + this.getClass().getSimpleName());
+        LOG.info("Entering password : {} on {}", password, this.getClass().getSimpleName());
         Wait.waitForElementDisplayed(driver, PASSWORD_INPUT_XPATH);
         passwordInput.sendKeys(password);
         passwordNextButton.click();

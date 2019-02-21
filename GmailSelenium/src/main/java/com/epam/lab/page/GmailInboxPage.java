@@ -16,9 +16,6 @@ import java.util.List;
 
 public class GmailInboxPage extends PageObject {
     private static final Logger LOG = LoggerFactory.getLogger(GmailInboxPage.class);
-    private static final String SENDER_XPATH = ".//div[@class='yW']";
-    private static final String SUBJECT_XPATH = ".//span[@class='bog']";
-    private static final String TEXT_MESSAGE_XPATH = ".//span[@class='y2']";
     private static final String CHECKBOX_XPATH = ".//div[@role='checkbox']";
     private static final String UNDO_LINK_XPATH = "//span[@id='link_undo']";
     private static final String DELETE_BUTTON_XPATH = ".//div[@class ='asa']";
@@ -54,10 +51,9 @@ public class GmailInboxPage extends PageObject {
 
 
     public void selectMessage(int amount) {
-        LOG.info("Click message checkBox on " + this.getClass().getSimpleName());
+        LOG.info("Click message checkBox on {} ", this.getClass().getSimpleName());
         int i = 0;
         List<TableRow> msg = new ArrayList<>(inboxMessages);
-        System.out.println(inboxMessages.size() + "!!!!!");
         for (TableRow message : msg) {
             CheckBox checkBox = new CheckBox(message.findElement(By.xpath(CHECKBOX_XPATH)));
             if (!checkBox.isSelected() && i < amount) {
@@ -68,7 +64,7 @@ public class GmailInboxPage extends PageObject {
     }
 
     public void deleteSelectedMessage() {
-        LOG.info("Click delete button on " + this.getClass().getSimpleName());
+        LOG.info("Click delete button on {}", this.getClass().getSimpleName());
         Wait.waitForElementDisplayed(driver, DELETE_BUTTON_XPATH);
         deleteButton.click();
 

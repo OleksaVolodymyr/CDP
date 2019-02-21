@@ -13,9 +13,11 @@ import java.util.List;
 
 public class WebServiceClient {
 
-    private final static String SERVICE_URL = "http://localhost:8080/WebServiceClient/logs/";
-    private final static String SAVE_LOGS_TO_DB_PATH = "saveLogsToDB";
+    private static final String SERVICE_URL = "http://localhost:8080/WebServiceClient/logs/";
+    private static final String SAVE_LOGS_TO_DB_PATH = "saveLogsToDB";
 
+    private WebServiceClient() {
+    }
 
     public static ClientResponse sendLogs(List<ITestLog> logs) {
         ClientConfig config = new DefaultClientConfig();

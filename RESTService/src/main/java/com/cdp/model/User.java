@@ -12,9 +12,6 @@ public class User {
     private int age;
     private String country;
 
-    public User() {
-    }
-
     public String getName() {
         return name;
     }

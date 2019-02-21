@@ -2,6 +2,8 @@ package com.epam.lab.property;
 
 
 import com.epam.lab.exception.PropertyNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -11,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class PropertyReader {
+    private static final Logger LOG = LoggerFactory.getLogger(PropertyReader.class);
     private static PropertyReader instance;
     private Properties prop;
 
@@ -31,7 +34,7 @@ public class PropertyReader {
             prop = new Properties();
             prop.load(is);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
     }
 

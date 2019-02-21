@@ -7,12 +7,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
 import java.util.List;
 
 public class FieldDecorator extends DefaultFieldDecorator {
-    // private static final Logger LOG = LoggerFactory.getLogger(FieldDecorator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FieldDecorator.class);
 
     public FieldDecorator(SearchContext searchContext) {
         super(new DefaultElementLocatorFactory(searchContext));
@@ -32,7 +34,7 @@ public class FieldDecorator extends DefaultFieldDecorator {
                 return proxyForLocator(loader, locator, field);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
             return super.decorate(loader, field);
         } else return super.decorate(loader, field);
@@ -40,11 +42,11 @@ public class FieldDecorator extends DefaultFieldDecorator {
 
     @SuppressWarnings("unchecked")
     private <T> T proxyForLocator(ClassLoader loader, ElementLocator locator, Field field)
-            throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            NoSuchMethodException, SecurityException {
+            throws InstantiationException, IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
         WebElement proxy = proxyForLocator(loader, locator);
         Class<?> clazz = field.getType();
-        // LOG.info("Create element " + clazz.getSimpleName());
+        LOG.info("Create element {}", clazz.getSimpleName());
         return (T) clazz.getConstructor(WebElement.class).newInstance(proxy);
     }
 
@@ -52,7 +54,7 @@ public class FieldDecorator extends DefaultFieldDecorator {
     private <T> List<T> proxyForListLocator(ClassLoader loader, ElementLocator locator, Field field) {
         Type listType = field.getGenericType();
         Class<?> clazz = (Class<?>) ((ParameterizedType) listType).getActualTypeArguments()[0];
-        //LOG.info("Create list of elements " + clazz.getSimpleName());
+        LOG.info("Create list of elements {}", clazz.getSimpleName());
         if (clazz.isAssignableFrom(WebElement.class)) {
             return (List<T>) super.proxyForListLocator(loader, locator);
         } else {

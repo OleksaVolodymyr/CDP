@@ -6,6 +6,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,11 +17,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Parser {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Parser.class);
+
+    private Parser() {
+    }
+
     @SuppressWarnings("unchecked")
-    public static <T> T XMLParse(String path) {
+    public static <T> T xmlParse(String path) {
         JAXBContext jaxbContext;
         T newObject = null;
         try {
@@ -27,13 +33,13 @@ public class Parser {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             newObject = (T) jaxbUnmarshaller.unmarshal(new File(path));
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         return newObject;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> List<T> XLSXParse(String path, T object) {
+    public static <T> List<T> xlsxParse(String path, T object) {
         List<T> list = new ArrayList<>();
         try (Workbook workbook = new XSSFWorkbook(new FileInputStream(new File(path)))) {
             Sheet dataSheet = workbook.getSheetAt(0);
@@ -44,12 +50,12 @@ public class Parser {
             }
         } catch (InvocationTargetException | IOException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         return list;
     }
 
-    public static <T> List<T> CSVParse(String path, T object, String separator) {
+    public static <T> List<T> csvParse(String path, T object, String separator) {
         List<T> list = new ArrayList<>();
         try (BufferedReader read = new BufferedReader(new FileReader(path))) {
             String line = "";
@@ -58,7 +64,7 @@ public class Parser {
                 list.add(createElement(object, split));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
 
         return list;
@@ -74,7 +80,7 @@ public class Parser {
                     fields[i].set(object, parse(fields[i], split[i]));
                 } catch (IllegalArgumentException | IllegalAccessException | InstantiationException |
                         InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    e.printStackTrace();
+                    LOG.error(e.getMessage());
                 }
             }
         }
@@ -82,7 +88,7 @@ public class Parser {
     }
 
     private static Object parse(Field field, String value) throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+            InvocationTargetException, NoSuchMethodException {
         Object parseValue = null;
         if (field.getType().isPrimitive()) {
             if (field.getType().equals(int.class)) {

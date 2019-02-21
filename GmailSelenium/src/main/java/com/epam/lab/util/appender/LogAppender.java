@@ -10,11 +10,9 @@ import com.epam.lab.util.logging.TestLog;
 
 public class LogAppender extends AppenderBase<LoggingEvent> {
 
-    private ITestLog log;
-
     @Override
     protected void append(LoggingEvent loggingEvent) {
-        log = new TestLog().setDate(loggingEvent.getTimeStamp())
+        ITestLog log = new TestLog().setDate(loggingEvent.getTimeStamp())
                 .setLevel(loggingEvent.getLevel().toString())
                 .setThreadName(loggingEvent.getThreadName())
                 .setClassName(loggingEvent.getCallerData()[0].getClassName())

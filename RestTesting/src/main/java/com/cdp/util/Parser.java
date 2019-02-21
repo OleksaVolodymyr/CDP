@@ -1,5 +1,8 @@
 package com.cdp.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
+    private static final Logger LOG = LoggerFactory.getLogger(Parser.class);
+
+    private Parser() {
+    }
 
     public static <T> List<T> parseCSV(String path, Class<T> clazz, String separator) {
-        // LOG.info(String.format("Starting parse CSV document on path %s ", path));
+        LOG.info("Starting parse CSV document on path {} ", path);
         List<T> list = new ArrayList<>();
         try (BufferedReader read = new BufferedReader(new FileReader(path))) {
             String line;
@@ -21,14 +28,14 @@ public class Parser {
                 list.add(createElement(newObject, split));
             }
         } catch (IOException | IllegalAccessException | InstantiationException e) {
-            // LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error(e.getMessage());
+
         }
         return list;
     }
 
     private static <T> T createElement(T object, String[] split) {
-        // LOG.error("Create object from CSV");
+        LOG.error("Create object from CSV");
         Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
@@ -38,8 +45,8 @@ public class Parser {
                     fields[i].set(object, parse(fields[i], split[i]));
                 } catch (IllegalArgumentException | IllegalAccessException | InstantiationException |
                         InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    //LOG.error(e.getMessage());
-                    e.printStackTrace();
+                    LOG.error(e.getMessage());
+
                 }
             }
         }
@@ -47,8 +54,8 @@ public class Parser {
     }
 
     private static Object parse(Field field, String value) throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException,
-            NoSuchMethodException, SecurityException {
+            InvocationTargetException,
+            NoSuchMethodException {
         Object parseValue = null;
         if (field.getType().isPrimitive()) {
             if (field.getType().equals(int.class)) {

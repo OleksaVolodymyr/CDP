@@ -1,4 +1,4 @@
-package com.epam.dataprovider.annotation;
+package com.epam.dp.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

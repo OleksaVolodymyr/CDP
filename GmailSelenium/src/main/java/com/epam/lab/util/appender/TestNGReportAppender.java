@@ -13,8 +13,7 @@ public class TestNGReportAppender extends AppenderBase<LoggingEvent> {
     }
 
     private String eventToString(final LoggingEvent event) {
-        final StringBuilder result = new StringBuilder("");
-
+        final StringBuilder result = new StringBuilder(event.getFormattedMessage());
         return result.toString();
     }
 }

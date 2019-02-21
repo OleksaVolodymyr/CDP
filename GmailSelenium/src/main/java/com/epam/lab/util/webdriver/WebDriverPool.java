@@ -18,14 +18,14 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverPool {
-    private static Logger LOG = LoggerFactory.getLogger(WebDriverPool.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebDriverPool.class);
     private static ThreadLocal<WebDriver> pool = new ThreadLocal<>();
     private static List<WebDriver> driversInThread = Collections.synchronizedList(new ArrayList<>());
 
     public static synchronized WebDriver getInstance(Driver driverType) {
         WebDriver driver = null;
         if (pool.get() == null) {
-            LOG.info("Create web driver, thread id : " + Thread.currentThread().getId());
+            LOG.info("Create web driver, thread id : {}", Thread.currentThread().getId());
             switch (driverType) {
                 case CHROME:
                     System.setProperty("webdriver.chrome.driver", "./resources/chromedriver.exe");
@@ -38,7 +38,7 @@ public class WebDriverPool {
                     try {
                         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage());
                     }
                     break;
                 case OPERA:

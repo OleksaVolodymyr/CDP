@@ -6,12 +6,12 @@ public class Message {
 
     private String sender;
     private String subject;
-    private String message;
+    private String text;
 
     private Message(MessageBuilder builder) {
         this.sender = builder.sender;
         this.subject = builder.subject;
-        this.message = builder.message;
+        this.text = builder.message;
     }
 
     public String getSender() {
@@ -22,8 +22,8 @@ public class Message {
         return this.subject;
     }
 
-    public String getMessage() {
-        return this.message;
+    public String getText() {
+        return this.text;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Message {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.sender == null) ? 0 : this.sender.hashCode());
-        result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
+        result = prime * result + ((this.text == null) ? 0 : this.text.hashCode());
         result = prime * result + ((this.subject == null) ? 0 : this.subject.hashCode());
         return result;
     }
@@ -43,12 +43,12 @@ public class Message {
         Message message1 = (Message) o;
         return Objects.equals(sender, message1.sender) &&
                 Objects.equals(subject, message1.subject) &&
-                Objects.equals(message, message1.message);
+                Objects.equals(text, message1.text);
     }
 
     @Override
     public String toString() {
-        return "Message [sender=" + this.sender + ", subject=" + this.subject + ", message=" + this.message
+        return "Message [sender=" + this.sender + ", subject=" + this.subject + ", text=" + this.text
                 + "]\n";
     }
 

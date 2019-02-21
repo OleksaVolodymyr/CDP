@@ -41,16 +41,12 @@
                         </property>
                         <property>
                             <name>listener</name>
-                            <value>org.uncommons.reportng.HTMLReporter,
-                                com.epam.lab.listener.CustomTestListener
+                            <value>org.uncommons.reportng.HTMLReporter
                             </value>
                         </property>
                     </properties>
 
                     <workingDirectory>test-output/</workingDirectory>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>resources/testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
 
                     <systemPropertyVariables>
                         <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>

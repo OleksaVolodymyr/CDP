@@ -2,8 +2,8 @@ package com.epam;
 
 
 import com.cdp.model.User;
-import com.epam.dataprovider.TestData;
-import com.epam.dataprovider.annotation.SourcePath;
+import com.epam.dp.TestData;
+import com.epam.dp.annotation.SourcePath;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;

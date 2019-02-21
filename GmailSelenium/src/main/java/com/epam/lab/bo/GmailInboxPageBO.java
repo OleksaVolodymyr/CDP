@@ -1,6 +1,5 @@
 package com.epam.lab.bo;
 
-import com.epam.lab.model.Message;
 import com.epam.lab.page.GmailInboxPage;
 
 public class GmailInboxPageBO {
@@ -10,17 +9,10 @@ public class GmailInboxPageBO {
         this.gmailInboxPage = gmailInbox;
     }
 
-    public void findMessage(Message model, int amount) {
-
-    }
-
     public void selectMessage(int amount) {
         gmailInboxPage.selectMessage(amount);
     }
 
-    public boolean isMessageFound(int amount) {
-        return true;
-    }
 
     public void deleteMessage() {
         gmailInboxPage.deleteSelectedMessage();

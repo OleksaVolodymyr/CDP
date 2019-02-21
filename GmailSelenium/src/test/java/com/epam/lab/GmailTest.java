@@ -15,8 +15,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.uncommons.reportng.HTMLReporter;
 
-import java.util.Iterator;
-
 
 @Listeners({HTMLReporter.class, CustomTestListener.class, LogReporter.class})
 public class GmailTest {
@@ -46,8 +44,8 @@ public class GmailTest {
 
 
     @DataProvider(name = "users", parallel = true)
-    public Iterator<User> getDataFromXML() {
-        return Parser.<UsersModel>XMLParse("./resources/users.xml").getUsers().iterator();
+    public Object[] getDataFromXML() {
+        return Parser.<UsersModel>xmlParse("./resources/users.xml").getUsers().toArray();
     }
 
     @AfterTest

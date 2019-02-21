@@ -14,9 +14,6 @@ public class User {
     @CSVElement
     private String country;
 
-    public User() {
-    }
-
     public String getName() {
         return name;
     }
