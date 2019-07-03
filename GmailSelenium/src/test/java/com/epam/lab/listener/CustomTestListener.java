@@ -12,8 +12,8 @@ public class CustomTestListener implements ITestListener, IInvokedMethodListener
 
     @Override
     public void onTestStart(ITestResult result) {
-        LOG.info(String.format("Test : %s , Method : %s, Started in : %s  ", result.getName(), result.getMethod(),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(result.getStartMillis())));
+        LOG.info("Test : {} , Method : {}, Started in : {}  ", result.getName(), result.getMethod(),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(result.getStartMillis()));
 
     }
 

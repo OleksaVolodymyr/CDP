@@ -24,6 +24,7 @@ public class WebDriverPool {
 
     public static synchronized WebDriver getInstance(Driver driverType) {
         WebDriver driver = null;
+
         if (pool.get() == null) {
             LOG.info("Create web driver, thread id : {}", Thread.currentThread().getId());
             switch (driverType) {

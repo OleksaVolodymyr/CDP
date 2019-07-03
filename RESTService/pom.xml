@@ -120,7 +120,7 @@
                     <version>2.2</version>
                     <configuration>
                         <path>/LogService</path>
-                        <port>8080</port>
+                        <port>8088</port>
                     </configuration>
                 </plugin>
             </plugins>
